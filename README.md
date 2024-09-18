@@ -5,6 +5,7 @@
 
 ## Desenvolvedor
 - **Edward Lacerda**
+- **Facundo Alarcon**
 
 ## Objetivo
 O DevHotel é um sistema projetado para gerenciar reservas de hotéis. Ele visa facilitar o controle de reservas, gerenciamento de quartos e registro de hóspedes, oferecendo uma interface amigável e eficiente tanto para a administração quanto para os usuários.
