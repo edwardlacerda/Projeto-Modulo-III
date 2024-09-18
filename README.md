@@ -3,14 +3,6 @@
 ## Status do Projeto
 🚧 Em desenvolvimento 🚧
 
-## Tecnologias Utilizadas
-- **Java**
-- **Spring Boot**
-- **JavaScript**
-- **MySQL**
-- **HTML**
-- **CSS**
-
 ## Desenvolvedor
 - **Edward Lacerda**
 
@@ -23,5 +15,17 @@ O DevHotel é um sistema projetado para gerenciar reservas de hotéis. Ele visa 
 3. **Gerenciamento de quartos**: Controle da disponibilidade dos quartos, características e preços.
 4. **Visualização de reservas**: Exibir as reservas realizadas de maneira organizada.
 5. **Relatórios**: Gerar relatórios de ocupação de quartos e faturamento.
+
+## Tecnologias Utilizadas
+- **Java**
+- **Spring Boot**
+- **JavaScript**
+- **MySQL**
+- **HTML**
+- **CSS**
+
+
+
+
 
 
