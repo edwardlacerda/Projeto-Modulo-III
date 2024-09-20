@@ -4,16 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dev Hotel</title>
+    <link rel="stylesheet" href="/css/style.css"/>
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/style.css" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+<!--  <style>
+      body {
+  background-color: rgb(228, 225, 211);
+  font-family: Roboto;
+}
+
+header {
+  background-color: #2b2b2b;
+}
+
+.logo {
+  padding-left: 30px;
+}
+
+.reserva {
+  background: rgb(182, 170, 147);
+  background: linear-gradient(
+    0deg,
+    rgb(182, 170, 147) 11%,
+    rgba(165, 141, 118, 0) 100%
+  );
+}
+
+.rounded-btn {
+    border-radius: 20px; 
+}
+  </style>-->
   </head>
- 
+  
+  
   <body>
     <header class="py-2">
       <div>
@@ -95,7 +124,7 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="name">Nome</label>
-                <input type="text" class="form-control" id="name" name="name" />
+                <input type="text" class="form-control" id="nome" name="nome" />
               </div>
               <div class="form-group col-md-6">
                 <label for="email">E-mail</label>
@@ -105,25 +134,25 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="checkin">Data de entrada</label>
-                <input type="date" class="form-control" id="checkin" name="checkin" />
+                <input type="date" class="form-control" id="data_entrada" name="data_entrada" />
               </div>
               <div class="form-group col-md-6">
                 <label for="checkout">Data de Saída</label>
-                <input type="date" class="form-control" id="checkout" name="checkout" />
+                <input type="date" class="form-control" id="data_saida" name="data_saida" />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="notes">Observações</label>
-                <textarea class="form-control" id="notes" name="notes"></textarea>
+                <textarea class="form-control" id="observacoes" name="observacoes"></textarea>
               </div>
               <div class="form-group col-md-3">
                 <label for="adults">Adultos</label>
-                <input type="number" class="form-control" id="adults" name="adults" />
+                <input type="number" class="form-control" id="adultos" name="adultos" />
               </div>
               <div class="form-group col-md-3">
                 <label for="children">Crianças</label>
-                <input type="number" class="form-control" id="children" name="children" />
+                <input type="number" class="form-control" id="criancas" name="criancas" />
               </div>
             </div>
             <div class="form-row d-flex justify-content-end">
@@ -134,7 +163,7 @@
       </div>
     </section>
 
-    <script src="/script.js"></script>
+    <script src="/js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

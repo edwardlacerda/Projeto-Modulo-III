@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
           //pega os dados do form
           const formData = {
-              name: document.getElementById('name').value,
+              nome: document.getElementById('nome').value,
               email: document.getElementById('email').value,
-              checkin: document.getElementById('checkin').value,
-              checkout: document.getElementById('checkout').value,
-              notes: document.getElementById('notes').value,
-              adults: parseInt(document.getElementById('adults').value, 10),
-              children: parseInt(document.getElementById('children').value, 10)
+              data_entrada: document.getElementById('data_entrada').value,
+              data_saida: document.getElementById('data_saida').value,
+              observacoes: document.getElementById('observacoes').value,
+              adultos: parseInt(document.getElementById('adultos').value, 10),
+              criancas: parseInt(document.getElementById('criancas').value, 10)
           };
 
           //envia os dados para o json server
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
               alert('Reserva realizada com sucesso!');
 
               //direciona para a pagina de reservas
-              window.location.href = 'reservas.html';
+              window.location.href = '/reservas.html';
           })
           .catch((error) => {
               console.error('Erro ao adicionar reserva:', error);
