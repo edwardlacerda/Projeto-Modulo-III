@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
           };
 
           //envia os dados para o json server
-          fetch('http://localhost:3000/reservas', {
+          fetch('http://localhost:8080/reservas', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const tableBody = document.getElementById('reservations-table-body');
 
       function updateTable() {
-          fetch('http://localhost:3000/reservas')
+          fetch('http://localhost:8080/reservas')
             .then(response => response.json())
             .then(data => {
               tableBody.innerHTML = ''; //limpa a tabela antes de atualizar
