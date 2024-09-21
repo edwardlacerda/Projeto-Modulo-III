@@ -14,7 +14,7 @@ public class ReservaViewController {
         return "index"; 
     }
 
-    @GetMapping("/reservas")
+    @GetMapping("/view")
     public String exibirReservasHtml() {
         return "reservas"; 
     }

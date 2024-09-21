@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
               form.reset(); 
 
           
-              alert('Reserva realizada com sucesso!');
+              alert('Reserva realizada com sucesso!',data);
 
               //direciona para a pagina de reservas
-              window.location.href = '/reservas.html';
+              window.location.href = '/view';
           })
           .catch((error) => {
               console.error('Erro ao adicionar reserva:', error);

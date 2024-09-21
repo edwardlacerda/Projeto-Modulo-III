@@ -19,8 +19,8 @@ public class ReservaEntity {
 
     private String nome;
     private String email;
-    private LocalDate dataEntrada;
-    private LocalDate dataSaida;
+    private LocalDate data_entrada;
+    private LocalDate data_saida;
     private String observacoes;
     private int adultos;
     private int criancas;
