@@ -5,6 +5,7 @@ import com.project.DevHotel.service.ReservaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "*")
 public class ReservaController {
 
     @Autowired
@@ -32,19 +34,22 @@ public class ReservaController {
         Reserva reserva = reservaService.atualizarReserva(id, reservaAtualizada);
         return ResponseEntity.ok(reserva);
     }
-    @GetMapping("/reservas")
-public ResponseEntity<List<Reserva>> listarReservas() {
-    List<Reserva> reservas = reservaService.listarReservas();
-    return ResponseEntity.ok(reservas);
-}
 
-    
+    @GetMapping("/reservas")
+    public ResponseEntity<List<Reserva>> listarReservas() {
+        List<Reserva> reservas = reservaService.listarReservas();
+        return ResponseEntity.ok(reservas);
+    }
+
     @PostMapping("/novo")
     public ResponseEntity<Reserva> criarReserva(@RequestBody Reserva reserva) {
         Reserva novaReserva = reservaService.salvarReserva(reserva);
         return ResponseEntity.ok(novaReserva);
     }
 
-
-
+    @GetMapping("/{id}")
+    public ResponseEntity<Reserva> obterReserva(@PathVariable Long id) {
+        Reserva reserva = reservaService.buscarReservaPorId(id);
+        return reserva != null ? ResponseEntity.ok(reserva) : ResponseEntity.notFound().build();
+    }
 }

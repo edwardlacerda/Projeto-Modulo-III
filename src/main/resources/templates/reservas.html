@@ -4,49 +4,104 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Reservas</title>
-        <link
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-            rel="stylesheet"
-            />
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="/css/style.css" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             function listarReservas() {
-                fetch('/reservas', {
-                    method: 'GET'
-                })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Erro na resposta da requisição');
-                            }
-                            return response.json();
-                        })
-                        .then(reservas => {
-                            console.log('Reservas recebidas:', reservas); // Verificar a estrutura dos dados
-                            const tabela = document.getElementById('reservations-table-body');
-                            tabela.innerHTML = ''; // Limpar a tabela antes de preencher
+                $.ajax({
+                    url: '/reservas',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (reservas) {
+                        const tabela = $('#reservations-table-body');
+                        tabela.empty();
+                        reservas.forEach(function (reserva, index) {
+                            const row = `
+        <tr>
+            <td>${reserva.nome}</td>
+            <td>${reserva.email}</td>
+            <td><input type="date" class="form-control" id="checkin-${index}" value="${reserva.dataEntrada}" disabled></td>
+            <td><input type="date" class="form-control" id="checkout-${index}" value="${reserva.dataSaida}" disabled></td>
+            <td><textarea class="form-control" id="observacoes-${index}" disabled>${reserva.observacoes}</textarea></td>
+            <td><input type="number" class="form-control" id="adultos-${index}" value="${reserva.adultos}" disabled></td>
+            <td><input type="number" class="form-control" id="criancas-${index}" value="${reserva.criancas}" disabled></td>
+            <td>
+                <div class="d-flex">
+                    <button class="btn btn-warning me-2" id="editar-${index}" onclick="editarReserva(${index})">Editar</button>
+                    <button class="btn btn-success d-none me-2" id="salvar-${index}" onclick="salvarReserva(${index}, ${reserva.id})">Salvar</button>
+                    <button class="btn btn-danger" onclick="excluirReserva(${reserva.id})">Excluir</button>
+                </div>
+            </td>
+        </tr>
+    `;
 
-                            reservas.forEach(reserva => {
-                                const row = tabela.insertRow();
-                                row.innerHTML = `
-                <td>${reserva.nome}</td>
-                <td>${reserva.email}</td>
-                <td>${reserva.data_entrada}</td>
-                <td>${reserva.data_saida}</td>
-                <td>${reserva.observacoes}</td>
-                <td>${reserva.adultos}</td>
-                <td>${reserva.criancas}</td>
-            `;
-                            });
-                        })
-                        .catch(error => console.error('Erro ao listar reservas:', error));
+                            tabela.append(row);
+                        });
+                    },
+                    error: function () {
+                        console.error('Erro ao listar reservas');
+                    }
+                });
             }
 
+            function editarReserva(index) {
+                $(`#nome-${index}, #email-${index}, #checkin-${index}, #checkout-${index}, #observacoes-${index}, #adultos-${index}, #criancas-${index}`).prop('disabled', false);
+                $(`#editar-${index}`).addClass('d-none');
+                $(`#salvar-${index}`).removeClass('d-none');
+            }
+
+            function salvarReserva(index, id) {
+                const reservaAtualizada = {
+                    nome: $(`#nome-${index}`).val(),
+                    email: $(`#email-${index}`).val(),
+                    dataEntrada: $(`#checkin-${index}`).val(),
+                    dataSaida: $(`#checkout-${index}`).val(),
+                    observacoes: $(`#observacoes-${index}`).val(),
+                    adultos: $(`#adultos-${index}`).val(),
+                    criancas: $(`#criancas-${index}`).val()
+                };
+
+                $.ajax({
+                    url: `/reservas/${id}`,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(reservaAtualizada),
+                    success: function () {
+                        alert('Reserva atualizada com sucesso!');
+                        listarReservas(); // Recarregar a lista de reservas
+                    },
+                    error: function () {
+                        alert('Erro ao atualizar reserva');
+                    }
+                });
+            }
+
+            function excluirReserva(id) {
+                if (confirm('Tem certeza que deseja excluir esta reserva?')) {
+                    $.ajax({
+                        url: `//reservas/${id}`,
+                        method: 'DELETE',
+                        success: function () {
+                            alert('Reserva excluída com sucesso!');
+                            listarReservas(); // Recarregar a lista de reservas
+                        },
+                        error: function () {
+                            alert('Erro ao excluir reserva');
+                        }
+                    });
+                }
+            }
+
+            $(document).ready(function () {
+                listarReservas();
+            });
         </script>
     </head>
     <body>
         <header class="py-2">
             <div>
-                <a href="/devhotel"><img src="img/dev-hotel-logo-nobg.png"  class="logo" height="80px" /></a>
+                <a href="/devhotel"><img alt="dev" src="img/dev-hotel-logo-nobg.png" class="logo" height="80" /></a>
             </div>
         </header>
         <main class="container my-5">
@@ -55,12 +110,13 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Email</th>
-                        <th>Data de Entrada</th>
-                        <th>Data de Saída</th>
+                        <th>E-mail</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
                         <th>Observações</th>
                         <th>Adultos</th>
                         <th>Crianças</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="reservations-table-body"></tbody>

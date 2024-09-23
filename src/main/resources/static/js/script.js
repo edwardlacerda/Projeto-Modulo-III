@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
               alert('Reserva realizada com sucesso!',data);
 
               //direciona para a pagina de reservas
-              window.location.href = '/view';
+              window.location.href = '/viewreservas';
           })
           .catch((error) => {
               console.error('Erro ao adicionar reserva:', error);
@@ -58,13 +58,13 @@ document.addEventListener('DOMContentLoaded', function () {
               data.forEach(reservation => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                  <td>${reservation.name}</td>
+                  <td>${reservation.nome}</td>
                   <td>${reservation.email}</td>
-                  <td>${reservation.checkin}</td>
-                  <td>${reservation.checkout}</td>
-                  <td>${reservation.notes}</td>
-                  <td>${reservation.adults}</td>
-                  <td>${reservation.children}</td>
+                  <td>${reservation.data_saida}</td>
+                  <td>${reservation.data_entrada}</td>
+                  <td>${reservation.observacoes}</td>
+                  <td>${reservation.adultos}</td>
+                  <td>${reservation.criancas}</td>
                 `;
                 tableBody.appendChild(row);
               });

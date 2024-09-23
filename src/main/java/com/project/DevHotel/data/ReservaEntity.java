@@ -1,5 +1,6 @@
 package com.project.DevHotel.data;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,10 +20,15 @@ public class ReservaEntity {
 
     private String nome;
     private String email;
-    private LocalDate data_entrada;
-    private LocalDate data_saida;
+
+    // Usando camelCase nos nomes dos campos e mapeando para as colunas no banco de dados
+    @Column(name = "data_entrada")
+    private LocalDate dataEntrada;
+
+    @Column(name = "data_saida")
+    private LocalDate dataSaida;
+
     private String observacoes;
     private int adultos;
     private int criancas;
-
 }

@@ -16,9 +16,56 @@
             document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('reservaForm').addEventListener('submit', function (event) {
                     event.preventDefault(); // Impede o envio padrão do formulário
-                    criarReserva(); // Chama a função para criar a reserva
+
+                    if (validarFormulario()) {
+                        criarReserva(); // Chama a função para criar a reserva
+                    }
                 });
             });
+
+            function validarFormulario() {
+                const nome = document.getElementById("nome").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const dataEntrada = document.getElementById("data_entrada").value;
+                const dataSaida = document.getElementById("data_saida").value;
+                const adultos = parseInt(document.getElementById("adultos").value);
+                const criancas = parseInt(document.getElementById("criancas").value);
+                let valid = true;
+
+                // Validação de nome
+                if (nome === "") {
+                    alert("O campo Nome é obrigatório.");
+                    valid = false;
+                }
+
+                // Validação de e-mail (regex simples)
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert("Por favor, insira um e-mail válido.");
+                    valid = false;
+                }
+
+                // Validação de data de entrada e saída
+                if (dataEntrada === "" || dataSaida === "") {
+                    alert("As datas de entrada e saída são obrigatórias.");
+                    valid = false;
+                } else if (new Date(dataEntrada) > new Date(dataSaida)) {
+                    alert("A data de saída deve ser posterior à data de entrada.");
+                    valid = false;
+                }
+
+                // Validação de adultos e crianças
+                if (isNaN(adultos) || adultos < 1) {
+                    alert("O número de adultos deve ser maior ou igual a 1.");
+                    valid = false;
+                }
+                if (isNaN(criancas) || criancas < 0) {
+                    alert("O número de crianças deve ser maior ou igual a 0.");
+                    valid = false;
+                }
+
+                return valid;
+            }
 
             function criarReserva() {
                 // Recebe valores dos campos de entrada
@@ -52,8 +99,8 @@
                         .then(response => {
                             if (response.ok) {
                                 alert('Reserva criada com sucesso!');
-                                window.location.href = '/reservas'; // Redireciona para a página de reservas
-                            } 
+                                window.location.href = '/viewreservas'; // Redireciona para a página de reservas
+                            }
                         })
                         .catch(error => {
                             console.error('Erro na requisição:', error);
@@ -61,17 +108,25 @@
                         });
             }
 
+            function limparFormulario() {
+                document.getElementById('reservaForm').reset();
+            }
 
         </script>
     </head>
-
-
     <body>
-        <header class="py-2">
+        <header class="py-2 d-flex justify-content-between align-items-center">
             <div>
-                <a href="/devhotel"><img alt="dev" src="img/dev-hotel-logo-nobg.png" class="logo" height="80" /></a>
+                <a href="/devhotel"><img alt="dev" src="img/dev-hotel-logo-nobg.png" class="logo"/></a>
+            </div>
+            <div> 
+                <a href="/viewreservas">
+                    <button type="button" class="btn btn-outline-light" id="btnReservas">Reservas</button>
+                </a>>
+
             </div>
         </header>
+
         <main class="container my-5">
             <section class="row mb-5">
                 <div class="col-md-4">
@@ -175,16 +230,18 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="children">Crianças</label>
-                                <input type="number" class="form-control" id="criancas" name="criancas" />
+                                <input type="number" class="form-control" id="criancas" name="criancas" value="0" />
                             </div>
                         </div>
                         <div class="form-row d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success rounded-btn col-md-6">Enviar</button>
+                            <button type="submit" class="btn btn-success rounded-btn col-md-5 me-2">Enviar</button>
+                            <button type="button" class="btn btn-secondary rounded-btn col-md-5 me-2" onclick="limparFormulario()">Limpar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </section>
+
 
         <script src="js/script.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
