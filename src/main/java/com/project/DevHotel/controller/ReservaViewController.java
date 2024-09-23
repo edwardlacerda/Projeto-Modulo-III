@@ -1,7 +1,4 @@
-
 package com.project.DevHotel.controller;
-
-
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +11,7 @@ public class ReservaViewController {
         return "index"; 
     }
 
-    @GetMapping("/view")
+    @GetMapping("/viewreservas")
     public String exibirReservasHtml() {
         return "reservas"; 
     }

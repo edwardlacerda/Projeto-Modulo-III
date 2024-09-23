@@ -1,145 +1,194 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dev Hotel</title>
-    <link rel="stylesheet" href="/css/style.css"/>
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dev Hotel</title>
+        <link rel="stylesheet" href="/css/style.css"/>
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet"
+            />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('reservaForm').addEventListener('submit', function (event) {
+                    event.preventDefault(); // Impede o envio padrão do formulário
+                    criarReserva(); // Chama a função para criar a reserva
+                });
+            });
 
-  </head>
-  
-  
-  <body>
-    <header class="py-2">
-      <div>
-        <a href="/devhotel"><img alt="dev" src="img/dev-hotel-logo-nobg.png" class="logo" height="80" /></a>
-      </div>
-    </header>
-    <main class="container my-5">
-      <section class="row mb-5">
-        <div class="col-md-4">
-          <div class="p-3 border border-dark rounded">
-            <h1>Sinta o conforto acolhedor de nossas hospedagens</h1>
-            <p>Hospede-se nos nossos hotéis com quartos a partir de R$ 100,00.</p>
-            <button class="btn btn-primary btn-lg">SAIBA MAIS</button>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <img src="img/hotel-room.png" alt="" class="img-fluid rounded" />
-        </div>
-      </section>
-      <section class="text-center mb-5">
-        <h2>POR QUE SE HOSPEDAR EM NOSSOS HOTÉIS?</h2>
+            function criarReserva() {
+                // Recebe valores dos campos de entrada
+                const nome = document.getElementById("nome").value;
+                const email = document.getElementById("email").value;
+                const data_entrada = document.getElementById("data_entrada").value;
+                const data_saida = document.getElementById("data_saida").value;
+                const observacoes = document.getElementById("observacoes").value;
+                const adultos = parseInt(document.getElementById("adultos").value);
+                const criancas = parseInt(document.getElementById("criancas").value);
 
-        <div class="container mt-5">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="col-md-6 d-flex align-items-center">
-              <div class="d-flex flex-row align-items-center">
-                <img src="img/coffe_icon.png" class="img-fluid" />
-                <div class="ml-3">
-                  <p class="h5 mb-1">Delicioso café da manhã</p>
-                  <span>Incluso em todas as diárias</span>
+                // Cria o objeto com os dados da requisição
+                const dados = {
+                    nome: nome,
+                    email: email,
+                    dataEntrada: data_entrada,
+                    dataSaida: data_saida,
+                    observacoes: observacoes,
+                    adultos: adultos,
+                    criancas: criancas
+                };
+
+                // Envia a requisição com fetch
+                fetch('/novo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                })
+                        .then(response => {
+                            if (response.ok) {
+                                alert('Reserva criada com sucesso!');
+                                window.location.href = '/reservas'; // Redireciona para a página de reservas
+                            } 
+                        })
+                        .catch(error => {
+                            console.error('Erro na requisição:', error);
+                            alert('Erro na comunicação com o servidor.');
+                        });
+            }
+
+
+        </script>
+    </head>
+
+
+    <body>
+        <header class="py-2">
+            <div>
+                <a href="/devhotel"><img alt="dev" src="img/dev-hotel-logo-nobg.png" class="logo" height="80" /></a>
+            </div>
+        </header>
+        <main class="container my-5">
+            <section class="row mb-5">
+                <div class="col-md-4">
+                    <div class="p-3 border border-dark rounded">
+                        <h1>Sinta o conforto acolhedor de nossas hospedagens</h1>
+                        <p>Hospede-se nos nossos hotéis com quartos a partir de R$ 100,00.</p>
+                        <button class="btn btn-primary btn-lg">SAIBA MAIS</button>
+                    </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="col-md-6 d-flex align-items-center">
-              <div class="d-flex flex-row align-items-center">
-                <img src="img/pin_point_icon.png" class="img-fluid" />
-                <div class="ml-3">
-                  <p class="h5 mb-1">Fácil acesso</p>
-                  <span>Perto dos principais pontos turísticos</span>
+                <div class="col-md-8">
+                    <img src="img/hotel-room.png" alt="" class="img-fluid rounded" />
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            </section>
+            <section class="text-center mb-5">
+                <h2>POR QUE SE HOSPEDAR EM NOSSOS HOTÉIS?</h2>
 
-      <section class="text-center mb-5">
-        <h2>NOSSOS QUARTOS</h2>
-        <div class="row mt-4">
-          <div class="col-md-4">
-            <img src="img/suite-solteiro.jpg" class="bg-secondary mb-2 border rounded" style="height: 200px">
-            <p>Suíte Solteiro</p>
-          </div>
-          <div class="col-md-4">
-            <img src="img/suite-casal.png" class="bg-secondary mb-2 border rounded" style="height: 200px">
-            <p>Suíte Casal</p>
-          </div>
-          <div class="col-md-4">
-            <img src="img/suite-master.jpg" class="bg-secondary mb-2 border rounded" style="height: 200px;">
-            <p>Suíte Master</p>
-          </div>
-        </div>
-      </section>
-    </main>
-      
-    <section class="container-fluid border rounded ">
-      <div class="row d-flex justify-content-center reserva">
-        <div class="col-md-3 my-4">
-          <h2 class="text-center">FAÇA SUA RESERVA</h2>
-          <p class="text-center">
-            Entre em contato conosco informando as datas desejadas. Lhe
-            retornaremos informando a disponibilidade e repassando detalhes
-            da reserva.
-          </p>
-        </div>
-        <div class="col-md-4 my-4">
-          <form>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="name">Nome</label>
-                <input type="text" class="form-control" id="nome" name="nome" />
-              </div>
-              <div class="form-group col-md-6">
-                <label for="email">E-mail</label>
-                <input type="email" class="form-control" id="email" name="email" />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="checkin">Data de entrada</label>
-                <input type="date" class="form-control" id="data_entrada" name="data_entrada" />
-              </div>
-              <div class="form-group col-md-6">
-                <label for="checkout">Data de Saída</label>
-                <input type="date" class="form-control" id="data_saida" name="data_saida" />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="notes">Observações</label>
-                <textarea class="form-control" id="observacoes" name="observacoes"></textarea>
-              </div>
-              <div class="form-group col-md-3">
-                <label for="adults">Adultos</label>
-                <input type="number" class="form-control" id="adultos" name="adultos" />
-              </div>
-              <div class="form-group col-md-3">
-                <label for="children">Crianças</label>
-                <input type="number" class="form-control" id="criancas" name="criancas" />
-              </div>
-            </div>
-            <div class="form-row d-flex justify-content-end">
-              <button type="submit" class="btn btn-success rounded-btn col-md-6">Enviar</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
+                <div class="container mt-5">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="col-md-6 d-flex align-items-center">
+                            <div class="d-flex flex-row align-items-center">
+                                <img src="img/coffe_icon.png" class="img-fluid" />
+                                <div class="ml-3">
+                                    <p class="h5 mb-1">Delicioso café da manhã</p>
+                                    <span>Incluso em todas as diárias</span>
+                                </div>
+                            </div>
+                        </div>
 
-    <script src="js/script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  </body>
+                        <div class="col-md-6 d-flex align-items-center">
+                            <div class="d-flex flex-row align-items-center">
+                                <img src="img/pin_point_icon.png" class="img-fluid" />
+                                <div class="ml-3">
+                                    <p class="h5 mb-1">Fácil acesso</p>
+                                    <span>Perto dos principais pontos turísticos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-center mb-5">
+                <h2>NOSSOS QUARTOS</h2>
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <img src="img/suite-solteiro.jpg" class="bg-secondary mb-2 border rounded" style="height: 200px">
+                        <p>Suíte Solteiro</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="img/suite-casal.png" class="bg-secondary mb-2 border rounded" style="height: 200px">
+                        <p>Suíte Casal</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="img/suite-master.jpg" class="bg-secondary mb-2 border rounded" style="height: 200px;">
+                        <p>Suíte Master</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <section class="container-fluid border rounded ">
+            <div class="row d-flex justify-content-center reserva">
+                <div class="col-md-3 my-4">
+                    <h2 class="text-center">FAÇA SUA RESERVA</h2>
+                    <p class="text-center">
+                        Entre em contato conosco informando as datas desejadas. Lhe
+                        retornaremos informando a disponibilidade e repassando detalhes
+                        da reserva.
+                    </p>
+                </div>
+                <div class="col-md-4 my-4">
+                    <form id="reservaForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="name">Nome</label>
+                                <input type="text" class="form-control" id="nome" name="nome" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="email">E-mail</label>
+                                <input type="email" class="form-control" id="email" name="email" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="checkin">Data de entrada</label>
+                                <input type="date" class="form-control" id="data_entrada" name="data_entrada" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="checkout">Data de Saída</label>
+                                <input type="date" class="form-control" id="data_saida" name="data_saida" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="notes">Observações</label>
+                                <textarea class="form-control" id="observacoes" name="observacoes"></textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="adults">Adultos</label>
+                                <input type="number" class="form-control" id="adultos" name="adultos" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="children">Crianças</label>
+                                <input type="number" class="form-control" id="criancas" name="criancas" />
+                            </div>
+                        </div>
+                        <div class="form-row d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success rounded-btn col-md-6">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <script src="js/script.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </body>
 </html>

@@ -1,39 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reservas</title>
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
-  <body>
-    <header class="py-2">
-      <div>
-        <a href="/devhotel"><img src="img/dev-hotel-logo-nobg.png"  class="logo" height="80px" /></a>
-      </div>
-    </header>
-    <main class="container my-5">
-      <h1 class="text-center">Reservas Realizadas</h1>
-      <table class="table table-bordered mt-4">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Data de Entrada</th>
-            <th>Data de Saída</th>
-            <th>Observações</th>
-            <th>Adultos</th>
-            <th>Crianças</th>
-          </tr>
-        </thead>
-        <tbody id="reservations-table-body"></tbody>
-      </table>
-    </main>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Reservas</title>
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet"
+            />
+        <link rel="stylesheet" href="/css/style.css" />
+        <script>
+            function listarReservas() {
+                fetch('/reservas', {
+                    method: 'GET'
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Erro na resposta da requisição');
+                            }
+                            return response.json();
+                        })
+                        .then(reservas => {
+                            console.log('Reservas recebidas:', reservas); // Verificar a estrutura dos dados
+                            const tabela = document.getElementById('reservations-table-body');
+                            tabela.innerHTML = ''; // Limpar a tabela antes de preencher
 
-    <script src="/js/script.js"></script>
-  </body>
+                            reservas.forEach(reserva => {
+                                const row = tabela.insertRow();
+                                row.innerHTML = `
+                <td>${reserva.nome}</td>
+                <td>${reserva.email}</td>
+                <td>${reserva.data_entrada}</td>
+                <td>${reserva.data_saida}</td>
+                <td>${reserva.observacoes}</td>
+                <td>${reserva.adultos}</td>
+                <td>${reserva.criancas}</td>
+            `;
+                            });
+                        })
+                        .catch(error => console.error('Erro ao listar reservas:', error));
+            }
+
+        </script>
+    </head>
+    <body>
+        <header class="py-2">
+            <div>
+                <a href="/devhotel"><img src="img/dev-hotel-logo-nobg.png"  class="logo" height="80px" /></a>
+            </div>
+        </header>
+        <main class="container my-5">
+            <h1 class="text-center">Reservas Realizadas</h1>
+            <table class="table table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Data de Entrada</th>
+                        <th>Data de Saída</th>
+                        <th>Observações</th>
+                        <th>Adultos</th>
+                        <th>Crianças</th>
+                    </tr>
+                </thead>
+                <tbody id="reservations-table-body"></tbody>
+            </table>
+        </main>
+
+        <script src="/js/script.js"></script>
+    </body>
 </html>

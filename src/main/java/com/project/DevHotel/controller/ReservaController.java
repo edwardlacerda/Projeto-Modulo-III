@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/reservas")
+@RequestMapping("/")
 public class ReservaController {
 
     @Autowired
@@ -32,14 +32,14 @@ public class ReservaController {
         Reserva reserva = reservaService.atualizarReserva(id, reservaAtualizada);
         return ResponseEntity.ok(reserva);
     }
+    @GetMapping("/reservas")
+public ResponseEntity<List<Reserva>> listarReservas() {
+    List<Reserva> reservas = reservaService.listarReservas();
+    return ResponseEntity.ok(reservas);
+}
+
     
-    @GetMapping
-    public ResponseEntity<List<Reserva>> listarReservas() {
-        List<Reserva> reservas = reservaService.listarReservas();
-        return ResponseEntity.ok(reservas);
-    }
-    
-    @PostMapping
+    @PostMapping("/novo")
     public ResponseEntity<Reserva> criarReserva(@RequestBody Reserva reserva) {
         Reserva novaReserva = reservaService.salvarReserva(reserva);
         return ResponseEntity.ok(novaReserva);
