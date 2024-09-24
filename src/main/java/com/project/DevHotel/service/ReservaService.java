@@ -5,7 +5,6 @@ import com.project.DevHotel.data.ReservaRepository;
 import com.project.DevHotel.model.Reserva;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,13 +65,8 @@ public class ReservaService {
     }
 
     // Listar todas as reservas
-    public List<Reserva> listarReservas() {
-        List<ReservaEntity> entities = reservaRepository.findAll();
-        List<Reserva> reservas = new ArrayList<>();
-        for (ReservaEntity entity : entities) {
-            reservas.add(toModel(entity));
-        }
-        return reservas;
+    public List<ReservaEntity> listarReservas() {
+        return reservaRepository.findAll();
     }
 
     // Deletar uma reserva por ID

@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Reservas</title>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/css/style.css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
@@ -45,10 +48,44 @@
                 });
             }
 
-            function editarReserva(index) {
-                $(`#nome-${index}, #email-${index}, #checkin-${index}, #checkout-${index}, #observacoes-${index}, #adultos-${index}, #criancas-${index}`).prop('disabled', false);
-                $(`#editar-${index}`).addClass('d-none');
-                $(`#salvar-${index}`).removeClass('d-none');
+
+            async function editarReserva(id, index) {
+                // Obter os dados do formulário editado
+                const reservaEditada = {
+                    nome: $(`#nome-${index}`).val(),
+                    email: $(`#email-${index}`).val(),
+                    dataEntrada: $(`#checkin-${index}`).val(),
+                    dataSaida: $(`#checkout-${index}`).val(),
+                    observacoes: $(`#observacoes-${index}`).val(),
+                    adultos: $(`#adultos-${index}`).val(),
+                    criancas: $(`#criancas-${index}`).val()
+                };
+
+                try {
+                    // Enviar a requisição AJAX para editar a reserva
+                    const response = await $.ajax({
+                        url: `/editar/${id}`, // Usar template literal para a URL
+                        method: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(reservaEditada)
+                    });
+
+                    // Atualizar a linha da tabela com os novos valores, sem recarregar a página
+                    $(`#nome-cell-${index}`).text(reservaEditada.nome);
+                    $(`#email-cell-${index}`).text(reservaEditada.email);
+                    $(`#checkin-cell-${index}`).text(reservaEditada.dataEntrada);
+                    $(`#checkout-cell-${index}`).text(reservaEditada.dataSaida);
+                    $(`#observacoes-cell-${index}`).text(reservaEditada.observacoes);
+                    $(`#adultos-cell-${index}`).text(reservaEditada.adultos);
+                    $(`#criancas-cell-${index}`).text(reservaEditada.criancas);
+                    alert('Reserva atualizada com sucesso!');
+
+                } catch (error) {
+                    // Se ocorrer um erro na requisição, exibir um alerta com o erro
+                    console.error('Erro ao atualizar a reserva:', error);
+                    alert('Erro ao atualizar a reserva. Verifique os dados e tente novamente.');
+                }
+                console.log(reservaEditada)
             }
 
             function salvarReserva(index, id) {
@@ -77,19 +114,21 @@
                 });
             }
 
-            function excluirReserva(id) {
+            async function excluirReserva(id) {
                 if (confirm('Tem certeza que deseja excluir esta reserva?')) {
-                    $.ajax({
-                        url: `//reservas/${id}`,
-                        method: 'DELETE',
-                        success: function () {
-                            alert('Reserva excluída com sucesso!');
-                            listarReservas(); // Recarregar a lista de reservas
-                        },
-                        error: function () {
-                            alert('Erro ao excluir reserva');
-                        }
-                    });
+                    try {
+                        const response = await fetch(`/deletar/${id}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (!response.ok)
+                            throw new Error('Erro ao excluir reserva');
+
+                        alert('Reserva excluída com sucesso!');
+                        listarReservas(); // Recarregar a lista de reservas
+                    } catch (error) {
+                        alert(error.message);
+                    }
                 }
             }
 
