@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>DevHotel</name>
     <description>O DevHotel é um sistema projetado para gerenciar reservas de hotéis. Ele visa facilitar o controle de reservas, gerenciamento de quartos e registro de hóspedes, oferecendo uma interface amigável e eficiente tanto para a administração quanto para os usuários.</description>
+    <packaging>war</packaging>
     <url/>
     <licenses>
         <license/>
