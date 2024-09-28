@@ -24,6 +24,7 @@ O DevHotel é um sistema projetado para gerenciar reservas de hotéis. Ele visa 
 - **MySQL**
 - **HTML**
 - **CSS**
+- **BootStrap**
 
 
 
